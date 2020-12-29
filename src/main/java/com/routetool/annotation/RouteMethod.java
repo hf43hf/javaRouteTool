@@ -9,7 +9,7 @@ import java.lang.annotation.*;
  * @Date: Create in 8:48 下午 2020/12/28
  */
 @Target({ElementType.METHOD})
-@Retention(RetentionPolicy.CLASS)
+@Retention(RetentionPolicy.RUNTIME)
 @Documented
 public @interface RouteMethod {
 

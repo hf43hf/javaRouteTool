@@ -1,5 +1,7 @@
 package com.routetool.annotation;
 
+import org.springframework.stereotype.Component;
+
 import java.lang.annotation.*;
 
 /**
@@ -9,8 +11,9 @@ import java.lang.annotation.*;
  * @Date: Create in 7:14 下午 2020/12/28
  */
 @Target({ElementType.TYPE})
-@Retention(RetentionPolicy.CLASS)
+@Retention(RetentionPolicy.RUNTIME)
 @Documented
+@Component
 public @interface RouteClass {
 
     String value() default "";
