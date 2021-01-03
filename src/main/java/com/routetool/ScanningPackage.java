@@ -36,7 +36,6 @@ public class ScanningPackage implements ApplicationRunner {
     @Autowired
     private RouteToolConfig routeToolConfig;
 
-    private Map<String, RouteMapValue> routeMap = new ConcurrentHashMap<>();
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -55,6 +54,11 @@ public class ScanningPackage implements ApplicationRunner {
                         List<String> routeBodyList = annotationValueParsing(routeMethod.value());
                         StringBuilder methodAllRoute = new StringBuilder().append(routeHead);
                         methodAllRoute.append(routeListToString(routeBodyList));
+
+                        String routeKey = methodAllRoute.toString();
+                        if (RouteUtil.getRouteMap().containsKey(routeKey)) {
+                            throw new RuntimeException("请检查路由url,路由url重复!");
+                        }
 
                         /** 获取方法上的参数 **/
                         List<RouteMethodParam> methodParams = new ArrayList<>();
@@ -77,7 +81,7 @@ public class ScanningPackage implements ApplicationRunner {
                         routeMapValue.setSpringAgentObj(SpringUtil.getBean(className));
                         routeMapValue.setMethod(method);
                         routeMapValue.setParameters(methodParams);
-                        routeMap.put(methodAllRoute.toString(), routeMapValue);
+                        RouteUtil.getRouteMap().put(routeKey, routeMapValue);
                     }
                 });
             }
