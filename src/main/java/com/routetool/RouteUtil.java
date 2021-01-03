@@ -24,7 +24,13 @@ public class RouteUtil {
         return routeMap;
     }
 
-    public static void run(ClientParameter clientParameter) {
+    public static void run(String clientMsg) {
+        if (!JSONUtil.isJson(clientMsg)) {
+            throw new RuntimeException("参数解析失败");
+        }
+
+        ClientParameter clientParameter = JsonUtil.toObject(clientMsg, ClientParameter.class);
+
         String path = clientParameter.getPath();
 
         RouteMapValue routeMapValue = routeMap.get(path);
