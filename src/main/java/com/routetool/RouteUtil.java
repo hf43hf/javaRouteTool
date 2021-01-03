@@ -31,7 +31,7 @@ public class RouteUtil {
 
         ClientParameter clientParameter = JsonUtil.toObject(clientMsg, ClientParameter.class);
 
-        String path = clientParameter.getPath();
+        String path = ScanningPackage.routeListToString(ScanningPackage.annotationValueParsing(clientParameter.getPath()));
 
         RouteMapValue routeMapValue = routeMap.get(path);
         if (routeMapValue == null) {

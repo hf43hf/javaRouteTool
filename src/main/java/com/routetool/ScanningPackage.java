@@ -98,7 +98,7 @@ public class ScanningPackage implements ApplicationRunner {
      * @version 1.0
      * @date 2020/12/29 5:04 下午
      */
-    private List<String> annotationValueParsing(String annotationValue) {
+    public static List<String> annotationValueParsing(String annotationValue) {
         return Arrays.stream(annotationValue.split("/")).filter(routePath -> Strings.isNotBlank(routePath)).collect(Collectors.toList());
     }
 
@@ -112,7 +112,7 @@ public class ScanningPackage implements ApplicationRunner {
      * @version 1.0
      * @date 2020/12/29 5:11 下午
      */
-    private String routeListToString(List<String> routeList) {
+    public static String routeListToString(List<String> routeList) {
         return routeList.parallelStream().collect(Collectors.joining("/", "/", ""));
     }
 }
