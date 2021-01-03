@@ -4,6 +4,8 @@ import cn.hutool.extra.spring.SpringUtil;
 import cn.hutool.json.JSONUtil;
 import com.routetool.annotation.RouteClass;
 import com.routetool.annotation.RouteMethod;
+import com.routetool.model.RouteMapValue;
+import com.routetool.model.RouteMethodParam;
 import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
@@ -14,6 +16,7 @@ import org.springframework.stereotype.Component;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -33,7 +36,7 @@ public class ScanningPackage implements ApplicationRunner {
     @Autowired
     private RouteToolConfig routeToolConfig;
 
-    private Map<String, Method> routeMap = new ConcurrentHashMap<>();
+    private Map<String, RouteMapValue> routeMap = new ConcurrentHashMap<>();
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
@@ -53,7 +56,28 @@ public class ScanningPackage implements ApplicationRunner {
                         StringBuilder methodAllRoute = new StringBuilder().append(routeHead);
                         methodAllRoute.append(routeListToString(routeBodyList));
 
-                        routeMap.put(methodAllRoute.toString(), method);
+                        /** 获取方法上的参数 **/
+                        List<RouteMethodParam> methodParams = new ArrayList<>();
+                        Parameter[] parameters = method.getParameters();
+                        Arrays.stream(parameters).forEach(param -> {
+                            RouteMethodParam routeMethodParam = new RouteMethodParam();
+                            routeMethodParam.setParamName(param.getName());
+                            routeMethodParam.setParamType(param.getType());
+
+                            methodParams.add(routeMethodParam);
+                        });
+
+                        RouteMapValue routeMapValue = new RouteMapValue();
+                        Class<?> className = null;
+                        try {
+                            className = Class.forName(classObj.getTypeName());
+                        } catch (ClassNotFoundException e) {
+                            e.printStackTrace();
+                        }
+                        routeMapValue.setSpringAgentObj(SpringUtil.getBean(className));
+                        routeMapValue.setMethod(method);
+                        routeMapValue.setParameters(methodParams);
+                        routeMap.put(methodAllRoute.toString(), routeMapValue);
                     }
                 });
             }

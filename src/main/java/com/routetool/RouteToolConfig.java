@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * 配置文件
  * @Date: Create in 11:49 上午 2020/12/29
  */
-@ConfigurationProperties("route-tool")
+@ConfigurationProperties(prefix = "route-tool")
 @Component
 public class RouteToolConfig {
 
