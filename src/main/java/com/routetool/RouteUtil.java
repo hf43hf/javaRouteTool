@@ -24,7 +24,17 @@ public class RouteUtil {
         return routeMap;
     }
 
-    public static void run(String clientMsg) {
+    /**
+     * 路由入口
+     *
+     * @param clientMsg
+     * @return void
+     * @Description: TODO(根据path寻找对应的业务方法)
+     * @author hef
+     * @version 1.0
+     * @date 2021/1/3 3:26 下午
+     */
+    public static void runMethod(String clientMsg) {
         if (!JSONUtil.isJson(clientMsg)) {
             throw new RuntimeException("参数解析失败");
         }
@@ -158,4 +168,5 @@ public class RouteUtil {
         }
         return result;
     }
+
 }
