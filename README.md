@@ -1,0 +1,2 @@
+# javaRouteTool
+基于spring完成的一个请求自定义路由工具，可用于websocket业务路由，摆脱业务写在一堆的痛点，写业务像写springmvc一样舒畅
