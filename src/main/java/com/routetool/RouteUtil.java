@@ -132,6 +132,17 @@ public class RouteUtil {
         return routeParamList;
     }
 
+    /**
+     * 单个参数解析
+     *
+     * @param type
+     * @param value
+     * @return java.lang.Object
+     * @Description: TODO()
+     * @author hef
+     * @version 1.0
+     * @date 2021/1/3 3:21 下午
+     */
     private static Object parseParamValue(Class type, String value) {
         Object result = null;
         if (String.class.equals(type)) {
@@ -140,6 +151,10 @@ public class RouteUtil {
             result = Integer.parseInt(value);
         } else if (long.class.equals(type) || Long.class.equals(type)) {
             result = Long.parseLong(value);
+        } else if (double.class.equals(type) || Double.class.equals(type)) {
+            result = Double.parseDouble(value);
+        } else if (float.class.equals(type) || Float.class.equals(type)) {
+            result = Float.parseFloat(value);
         }
         return result;
     }
